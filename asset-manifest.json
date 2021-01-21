@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/Poke-Store/static/js/main.b1bc88f4.chunk.js",
+    "main.js.map": "/Poke-Store/static/js/main.b1bc88f4.chunk.js.map",
+    "runtime-main.js": "/Poke-Store/static/js/runtime-main.8789f1f0.js",
+    "runtime-main.js.map": "/Poke-Store/static/js/runtime-main.8789f1f0.js.map",
+    "static/js/2.97b2c476.chunk.js": "/Poke-Store/static/js/2.97b2c476.chunk.js",
+    "static/js/2.97b2c476.chunk.js.map": "/Poke-Store/static/js/2.97b2c476.chunk.js.map",
+    "static/js/3.ce4078ac.chunk.js": "/Poke-Store/static/js/3.ce4078ac.chunk.js",
+    "static/js/3.ce4078ac.chunk.js.map": "/Poke-Store/static/js/3.ce4078ac.chunk.js.map",
+    "index.html": "/Poke-Store/index.html",
+    "static/js/2.97b2c476.chunk.js.LICENSE.txt": "/Poke-Store/static/js/2.97b2c476.chunk.js.LICENSE.txt",
+    "static/media/loading.d8f29561.gif": "/Poke-Store/static/media/loading.d8f29561.gif"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8789f1f0.js",
+    "static/js/2.97b2c476.chunk.js",
+    "static/js/main.b1bc88f4.chunk.js"
+  ]
+}
