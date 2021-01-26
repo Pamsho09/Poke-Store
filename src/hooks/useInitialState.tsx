@@ -22,15 +22,15 @@ function useInitialState(): any {
 
   useEffect(() => {
     axios
-      .get("https://pokeapi.co/api/v2/pokemon?limit=802")
+      .get("https://pokeapi.co/api/v2/pokemon?limit=897")
       .then((res): any => res.data.results)
       .then((results) => {
-        return Promise.all(results.map((e: { url: string; }) => axios.get(e.url)));
+        return Promise.all(results.map((e: { url: string; }) => axios.get(e.url)))
       })
       .then((results): any => {
       setPokemons(results)
        
-      });
+      })
   }, []);
 
   // const addToCart:any = (payload: never) => {

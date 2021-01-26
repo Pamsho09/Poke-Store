@@ -1,11 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './router/App';
+
 import reportWebVitals from './reportWebVitals';
+import { createGlobalStyle } from 'styled-components'
+const GlobalStyle = createGlobalStyle`
+  * {
+margin: 0;
+padding: 0;
+font-family:"Pixelmania";
+ }
+ body{
+  background-color: #FBAB7E;
+background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+
+ }
+ @font-face {
+  font-family: "Pixelmania";
+  src: local("Pixelmania"),
+  url("./assets/fonts/Pixelmania.ttf") format("truetype");
+  font-weight: normal;
+}
+`
 
 ReactDOM.render(
   <React.StrictMode>
+    <GlobalStyle />
     <App />
+
   </React.StrictMode>,
   document.getElementById('root')
 );

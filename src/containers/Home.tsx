@@ -1,21 +1,25 @@
 import React, { useContext } from "react";
-import Products from "../components/Products";
+import PokemonCard from "../components/PokemonCard";
 import AppContext from "../context/AppContext";
 import styled from "styled-components";
+
 const Home = (): any => {
   const Container = styled.div`
     width: 100%;
     height: auto;
-
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
+justify-content: center;
+gap:3em;
+    display: flex;
+flex-wrap:
+wrap;
   `;
   const data: any = useContext(AppContext);
   let allData = data.pokemons;
+  console.log(allData)
   return (
     <Container>
       {allData.map((e: any,index:number) => (
-        <Products  key ={index } {...e} />
+        <PokemonCard  key ={index } {...e} />
       ))}
     </Container>
   );
