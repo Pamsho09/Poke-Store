@@ -1,24 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import logo from "../assets/PokeStore.png";
+import AppContext from "../context/AppContext";
+
 function Header(): any {
+  const { pokemons }: any = useContext(AppContext);
+  const [search, setSearch] = useState("");
+
   const [ability, setAbility]: any = useState([]);
   const [type, setType]: any = useState([]);
   const API = (url: string) => {
     return `https://pokeapi.co/api/v2/${url}`;
   };
-  useEffect(() => {
-    fetch(API("type/"))
-      .then((response): any => response.json())
-      .then((data): any => setType(data.results));
-  }, []);
-  useEffect(() => {
-    fetch(API("ability/"))
-      .then((response): any => response.json())
-      .then((data): any => setAbility(data.results));
-  }, []);
+  // useEffect(() => {
+  //   fetch(API("type/"))
+  //     .then((response): any => response.json())
+  //     .then((data): any => setType(data.results));
+  // }, []);
+  // useEffect(() => {
+  //   fetch(API("ability/"))
+  //     .then((response): any => response.json())
+  //     .then((data): any => setAbility(data.results));
+  // }, []);
 
+  const filterPokemon: any = useMemo(
+    () =>
+      pokemons.filter((e: any) => {
+        return e.data.name.toLowerCase().includes(search.toLowerCase());
+      }),
+    [search]
+  );
   const Header = styled.header`
     width: 100%;
     height: auto;
@@ -46,10 +58,8 @@ function Header(): any {
     }
     .typeLi {
       border-radius: 10px;
-      width: 10em;
+      width: 20%;
       height: 2em;
-      margin: 2em 1em;
-      background-color: white;
       gap: 1em;
       display: grid;
       flex-direction: column;
@@ -72,7 +82,7 @@ function Header(): any {
     }
     h3 {
       border-radius: 10px;
-      width: 10em;
+      width: 100%;
       height: 2em;
 
       background-color: white;
@@ -111,7 +121,19 @@ function Header(): any {
       font-family: Roboto;
       font-weight: bold;
     }
-    .search {
+    
+  `;
+
+  const handleSearch = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+   const Search =styled.div`
+   /* width:100%;
+ 
+background-color: #fff;
+      height: 2em;
+ 
+   .search {
       width: 100%;
       display: flex;
 
@@ -127,7 +149,7 @@ function Header(): any {
       border: none;
       height: 2em;
       font-family: Roboto;
-      outline: none;
+   
     }
     .search button {
       width: 2em;
@@ -136,7 +158,14 @@ function Header(): any {
       outline: none;
       border-radius: 50%;
     }
-  `;
+   .search-data{
+display:flex;
+flex-direction: column;
+position:absolute;
+   }
+    */
+   `
+ 
   return (
     <Header>
       <img src={logo} alt="Logo pokestore" />
@@ -283,16 +312,35 @@ function Header(): any {
             </ul>
           </li>
           <li className="typeLi">
-            <Link to="/legendary"><h3>Lengendary</h3></Link>
+            <Link to="/legendary">
+              <h3>Lengendary</h3>
+            </Link>
           </li>
           <li className="typeLi">
-            <div className="search">
-              {" "}
-              <input type="text" />{" "}
-              <button>
-                <i className="fas fa-search"></i>
-              </button>
-            </div>
+            <Search className="container-search">
+              <div className="search">
+                <input type="text" value={search} onChange={handleSearch} />
+                <button>
+                  <i className="fas fa-search"></i>
+                </button>
+              </div>
+
+              <div className="search-data">
+                {/* {filterPokemon.map((e: any) => (
+                  <Link
+                  key={e.data.id}
+                    to={{
+                      pathname: `/generation`,
+                      state: {
+                        limitGenetatio: [1, 151],
+                      },
+                    }}
+                  >
+                    {e.data.name}
+                  </Link>
+                ))} */}
+              </div>
+            </Search>
           </li>
           <li className="typeCart">
             <i className="fas fa-shopping-cart"></i>
