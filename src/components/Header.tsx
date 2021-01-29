@@ -1,10 +1,195 @@
 import React, { useState, useEffect, useMemo, useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import logo from "../assets/PokeStore.png";
 import AppContext from "../context/AppContext";
+import { device } from "../assets/utils/device";
+import pokeball from "../assets/img/pokeball.svg";
+const Header = styled.header`
+  @media ${device.movile} {
+    width: 100%;
+    z-index:1111111111111111;
+    position: fixed;
+    background-color: #ee4444;
+    display: flex;
+    height: 4em;
 
-function Header(): any {
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0 0 23px 23px;
+
+    nav {
+      width: 100%;
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+    }
+  } /*
+  width: 100%;
+
+  background-color: #ee4444;
+  display: flex;
+  height: 4em;
+
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0 0 23px 23px;
+  img {
+    width: 15%;
+  }
+  nav {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    align-items: center;
+  } */
+`;
+const Menu = styled.div`
+  @media ${device.movile} {
+    display: flex;
+    width: 4em;
+    flex-direction: column-reverse;
+    align-items: center;
+    position: fixed;
+    bottom: 10px;
+    margin-right: 40px;
+    right: 10px;
+    .poke-menu {
+      width: 4em;
+      height: 4em;
+    }
+    :hover .menu {
+      display: flex;
+    }
+
+    li {
+      list-style: none;
+    }
+    a {
+      color: #000;
+
+      text-decoration: none;
+    }
+    ul {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+    .menu {
+      display: none;
+      gap: 1em;
+    }
+
+    h3 {
+      text-align: center;
+      padding: 0.5em;
+      display: flex;
+      justify-self: center;
+      justify-content: center;
+      background-color: #fff;
+    }
+    .sub-opcions {
+      display: none;
+    }
+    .menu-opcions {
+      background-color: #d8d8d8;
+    }
+    .menu-opcions,
+    h3 {
+      font-family: "Roboto";
+      text-align: center;
+      border-radius: 10px;
+      height: auto;
+      max-height: 10em;
+      overflow: hidden;
+    }
+    .menu-opcions:hover .sub-opcions,
+    h3 {
+      align-items: center;
+      font-weight: bold;
+      gap: 10px;
+
+      height: auto;
+      max-height: 6em;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      display: flex;
+      box-shadow: 10px 1px #3d3d3d;
+    }
+  }
+`;
+const Search = styled.div`
+  @media ${device.movile} {
+    width: 70%;
+    position: relative;
+    background-color: #fff;
+
+    display: block;
+    
+
+    border-radius: 50px;
+
+    .search {
+      width: 100%;
+      display: flex;
+      border-radius: 10px;
+      height: 2em;
+      justify-content: space-between;
+
+      align-items: center;
+    }
+
+    .search input {
+      width: 100%;
+      text-align: center;
+      font-size: 15px;
+      border-radius: 50px;
+      border: none;
+      height: 1em;
+      font-family: Roboto;
+      outline: none;
+    }
+    .search .icon i {
+      font-size: 9px;
+margin-right:1em;
+      color: #575757;
+
+      border: none;
+      outline: none;
+    }
+    .search-data {
+      display: none;
+    }
+    &:hover .search-data {
+      display: flex;
+      flex-direction: column;
+      z-index: 11111111111111;
+      position: absolute;
+      height: auto;
+      max-height: 25em;
+      width: 100%;
+      border-radius: 10px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      font-weight:bold;
+      background-color: #fff;
+      gap: 10px;
+    }
+    .search-data a {
+      font-family: roboto;
+      color: #000;
+      text-align: center;
+      text-decoration: none;
+      padding: 10px 20px;
+    }
+    .search-data a:hover {
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
+`;
+
+function Heade(): any {
   const { pokemons }: any = useContext(AppContext);
   const [search, setSearch] = useState("");
 
@@ -13,322 +198,88 @@ function Header(): any {
   const API = (url: string) => {
     return `https://pokeapi.co/api/v2/${url}`;
   };
-  // useEffect(() => {
-  //   fetch(API("type/"))
-  //     .then((response): any => response.json())
-  //     .then((data): any => setType(data.results));
-  // }, []);
-  // useEffect(() => {
-  //   fetch(API("ability/"))
-  //     .then((response): any => response.json())
-  //     .then((data): any => setAbility(data.results));
-  // }, []);
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+  useEffect(() => {
+    fetch(API("type/"))
+      .then((response): any => response.json())
+      .then((data): any => setType(data.results));
+  }, []);
+  useEffect(() => {
+    fetch(API("ability/"))
+      .then((response): any => response.json())
+      .then((data): any => setAbility(data.results));
+  }, []);
 
   const filterPokemon: any = useMemo(
     () =>
       pokemons.filter((e: any) => {
         return e.data.name.toLowerCase().includes(search.toLowerCase());
       }),
-    [search]
+    [pokemons, search]
   );
-  const Header = styled.header`
-    width: 100%;
-    height: auto;
-    background-color: #ee4444;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 0 0 23px 23px;
-    img {
-      width: 15%;
-    }
-    nav {
-      width: 60%;
-      justify-content: space-between;
-      align-items: center;
-    }
-  `;
-  const Menu = styled.ul`
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    li {
-      list-style: none;
-    }
-    .typeLi {
-      border-radius: 10px;
-      width: 20%;
-      height: 2em;
-      gap: 1em;
-      display: grid;
-      flex-direction: column;
-      justify-content: center;
-      font-family: Roboto;
-      font-weight: bold;
-    }
-    .typeCart {
-      border-radius: 10px;
-      width: 2em;
-      height: 2em;
-      margin: 2em 1em;
-      background-color: white;
-      gap: 1em;
-      display: grid;
-      align-items: center;
-      justify-content: center;
-      font-family: Roboto;
-      font-weight: bold;
-    }
-    h3 {
-      border-radius: 10px;
-      width: 100%;
-      height: 2em;
 
-      background-color: white;
-      align-items: center;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      font-family: Roboto;
-      font-weight: bold;
-    }
-    .typeLi:hover .secundario {
-      margin-top: 2em;
-      display: grid;
-      position: absolute;
-      gap: 1em;
-      grid-template-columns: repeat(4, 1fr);
-    }
-    .secundario {
-      display: none;
-    }
-    .linkType {
-      display: none;
-      color: #000;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 10px;
-      width: 10em;
-      height: 2em;
-      box-shadow: 1px 1px rgba(0, 0, 0, 0.4);
-      background-color: white;
-      justify-content: space-between;
-      align-items: flex-start;
-      display: flex;
-      justify-content: center;
-      font-family: Roboto;
-      font-weight: bold;
-    }
-    
-  `;
-
-  const handleSearch = (event:React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-  };
-   const Search =styled.div`
-   /* width:100%;
- 
-background-color: #fff;
-      height: 2em;
- 
-   .search {
-      width: 100%;
-      display: flex;
-
-      border-radius: 10px;
-      border-radius: 10px;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .search input {
-      width: 80%;
-      border-radius: 10px;
-      border: none;
-      height: 2em;
-      font-family: Roboto;
-   
-    }
-    .search button {
-      width: 2em;
-      height: 2em;
-      border: none;
-      outline: none;
-      border-radius: 50%;
-    }
-   .search-data{
-display:flex;
-flex-direction: column;
-position:absolute;
-   }
-    */
-   `
- 
+  console.log(filterPokemon);
   return (
     <Header>
-      <img src={logo} alt="Logo pokestore" />
       <nav>
+        <Search className="container-search">
+          <div className="search">
+            <input type="text" value={search} onChange={handleSearch} />
+            <div className="icon">
+              {" "}
+              <i className="fas fa-search" />
+            </div>
+          </div>
+
+          <div className="search-data">
+            {filterPokemon.map((e: any) => (
+              <Link
+                to={{
+                  pathname: `/pokemon/${e.data.id}`,
+                  
+                }}
+              >
+                {e.data.name}
+              </Link>
+            ))}
+          </div>
+        </Search>
         <Menu>
-          <li className="typeLi">
-            <h3>Type pokemon</h3>
-            <ul className="secundario">
-              {type.map((e: any, index: number) => (
-                <li key={index}>
-                  <Link className="linkType" to={`/type/${e.name}`}>
-                    {e.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </li>
-          <li className="typeLi">
-            <h3>Hability</h3>
-            <ul className="secundario">
-              {ability.map((e: any, index: number) => (
-                <li key={index}>
-                  <Link className="linkType" to={`/hability/${e.name}`}>
-                    {e.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </li>
+          <img className="poke-menu" src={pokeball} alt="" />
+          <ul className="menu">
+            <li className="menu-opcions">
+              <h3>Type pokemon</h3>
+              <ul className="sub-opcions">
+                {type.map((e: any, index: number) => (
+                  <li key={index}>
+                    <Link className="linkType" to={`/type/${e.name}`}>
+                      {e.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </li>
+            <li className="menu-opcions">
+              <h3>Hability</h3>
+              <ul className="sub-opcions">
+                {ability.map((e: any, index: number) => (
+                  <li key={index}>
+                    <Link className="linkType" to={`/hability/${e.name}`}>
+                      {e.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </li>
 
-          <li className="typeLi">
-            <h3>Generation</h3>
-            <ul className="secundario">
-              <li>
-                <Link
-                  className="linkType"
-                  to={{
-                    pathname: `/generation`,
-                    state: {
-                      limitGenetatio: [1, 151],
-                    },
-                  }}
-                >
-                  FIRST
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="linkType"
-                  to={{
-                    pathname: `/generation`,
-                    state: {
-                      limitGenetatio: [152, 251],
-                    },
-                  }}
-                >
-                  SECOND
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="linkType"
-                  to={{
-                    pathname: `/generation`,
-                    state: {
-                      limitGenetatio: [252, 386],
-                    },
-                  }}
-                >
-                  {" "}
-                  THIRD
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="linkType"
-                  to={{
-                    pathname: `/generation`,
-                    state: {
-                      limitGenetatio: [387, 494],
-                    },
-                  }}
-                >
-                  {" "}
-                  QUARTER
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="linkType"
-                  to={{
-                    pathname: `/generation`,
-                    state: {
-                      limitGenetatio: [495, 649],
-                    },
-                  }}
-                >
-                  {" "}
-                  FIFTH
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="linkType"
-                  to={{
-                    pathname: `/generation`,
-                    state: {
-                      limitGenetatio: [650, 721],
-                    },
-                  }}
-                >
-                  {" "}
-                  SIXTH
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="linkType"
-                  to={{
-                    pathname: `/generation`,
-                    state: {
-                      limitGenetatio: [722, 809],
-                    },
-                  }}
-                >
-                  {" "}
-                  SEVENTH
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="linkType"
-                  to={{
-                    pathname: `/generation`,
-                    state: {
-                      limitGenetatio: [810, 897],
-                    },
-                  }}
-                >
-                  {" "}
-                  EIGHTH
-                </Link>
-              </li>
-            </ul>
-          </li>
-          <li className="typeLi">
-            <Link to="/legendary">
-              <h3>Lengendary</h3>
-            </Link>
-          </li>
-          <li className="typeLi">
-            <Search className="container-search">
-              <div className="search">
-                <input type="text" value={search} onChange={handleSearch} />
-                <button>
-                  <i className="fas fa-search"></i>
-                </button>
-              </div>
-
-              <div className="search-data">
-                {/* {filterPokemon.map((e: any) => (
+            <li className="menu-opcions">
+              <h3>Generation</h3>
+              <ul className="sub-opcions">
+                <li>
                   <Link
-                  key={e.data.id}
+                    className="linkType"
                     to={{
                       pathname: `/generation`,
                       state: {
@@ -336,19 +287,125 @@ position:absolute;
                       },
                     }}
                   >
-                    {e.data.name}
+                    FIRST
                   </Link>
-                ))} */}
-              </div>
-            </Search>
-          </li>
-          <li className="typeCart">
-            <i className="fas fa-shopping-cart"></i>
-          </li>
+                </li>
+                <li>
+                  <Link
+                    className="linkType"
+                    to={{
+                      pathname: `/generation`,
+                      state: {
+                        limitGenetatio: [152, 251],
+                      },
+                    }}
+                  >
+                    SECOND
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="linkType"
+                    to={{
+                      pathname: `/generation`,
+                      state: {
+                        limitGenetatio: [252, 386],
+                      },
+                    }}
+                  >
+                    {" "}
+                    THIRD
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="linkType"
+                    to={{
+                      pathname: `/generation`,
+                      state: {
+                        limitGenetatio: [387, 494],
+                      },
+                    }}
+                  >
+                    {" "}
+                    QUARTER
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="linkType"
+                    to={{
+                      pathname: `/generation`,
+                      state: {
+                        limitGenetatio: [495, 649],
+                      },
+                    }}
+                  >
+                    {" "}
+                    FIFTH
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="linkType"
+                    to={{
+                      pathname: `/generation`,
+                      state: {
+                        limitGenetatio: [650, 721],
+                      },
+                    }}
+                  >
+                    {" "}
+                    SIXTH
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="linkType"
+                    to={{
+                      pathname: `/generation`,
+                      state: {
+                        limitGenetatio: [722, 809],
+                      },
+                    }}
+                  >
+                    {" "}
+                    SEVENTH
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="linkType"
+                    to={{
+                      pathname: `/generation`,
+                      state: {
+                        limitGenetatio: [810, 897],
+                      },
+                    }}
+                  >
+                    {" "}
+                    EIGHTH
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            <li className="menu-opcions">
+              <Link to="/legendary">
+                <h3>Lengendary</h3>
+              </Link>
+            </li>
+
+            <li className="menu-opcions">
+              <h3>
+                {" "}
+                <i className="fas fa-shopping-cart"></i>
+              </h3>
+            </li>
+          </ul>
         </Menu>
       </nav>
     </Header>
   );
 }
 
-export default Header;
+export default Heade;

@@ -4,21 +4,8 @@ import axios from "axios";
 function useInitialState(): any {
   const api = "";
   const [state, setState] = useState(initialState);
-  const [pokemons, setPokemons]: any[] = useState([]);
-  //   async function dataRes() {
-  //     let multiApi: any = [];
-  //     let res = await axios("https://pokeapi.co/api/v2/pokemon?limit=802");
-  //     let urls = res.data.results;
-  //     for (let i = 0; i < urls.length; i++) {
-  //       axios.get(urls[i].url).then((res: any) => {
+  const [pokemons, setPokemons]: any = useState([]);
 
-  //         setPokemons([...pokemons,res.data])
-  //         console.log(pokemons)
-  //       });
-  //     }
-
-  //  ;
-  //   }
 
   useEffect(() => {
     axios
@@ -27,7 +14,7 @@ function useInitialState(): any {
       .then((results) => {
         return Promise.all(results.map((e: { url: string; }) => axios.get(e.url)))
       })
-      .then((results): any => {
+      .then((results: any): any => {
       setPokemons(results)
        
       })
