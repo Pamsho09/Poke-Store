@@ -85,6 +85,22 @@ function Products(props: any) {
     }
   `;
 
+function handleClickAdd(e:any){
+
+  e.preventDefault();
+  
+  let pokemonAdd ={
+    id:props.data.id,
+  name:props.data.name,
+  sprite:props.data.sprites.front_default,
+  quantity:1,
+  price:props.data.base_experience
+  
+  }
+
+ props.add(pokemonAdd)
+    }
+
   return (
     <>
       <Poke>
@@ -99,7 +115,7 @@ function Products(props: any) {
         <div className="container">
           <div className="allData">
             <h4 className="price">Price :${props.data.base_experience} </h4>
-            <i className="fas fa-cart-plus"></i>
+            <i className="fas fa-cart-plus" onClick={handleClickAdd}></i>
           </div>
         </div>
       </Poke>

@@ -6,6 +6,7 @@ import styled from "styled-components";
 function Habiliti() {
   const Container = styled.div`
     width: 100%;
+    
     height: auto;
     justify-content: center;
     gap: 3em;
@@ -14,7 +15,7 @@ function Habiliti() {
   `;
   const { id }: any = useParams();
   console.log(id);
-  const { pokemons }: any = useContext(AppContext);
+  const { pokemons ,addToCart }: any = useContext(AppContext);
   console.log(pokemons);
   let pokemonsType = pokemons.filter((pokemons: any) => {
     if (
@@ -30,7 +31,7 @@ function Habiliti() {
   return (
     <Container>
       {pokemonsType.map((e: any, index: number) => (
-        <PokemonCard key={index} {...e} />
+        <PokemonCard key={index} {...e} add={addToCart} />
       ))}
     </Container>
   );

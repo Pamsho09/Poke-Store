@@ -15,7 +15,7 @@ function Legendary() {
   `;
   const { id }: any = useParams();
   console.log(id);
-  const { pokemons }: any = useContext(AppContext);
+  const { pokemons ,addToCart}: any = useContext(AppContext);
   console.log(pokemons);
   const legendary = [
     144,
@@ -109,6 +109,8 @@ function Legendary() {
     896,
    
   ];
+
+ 
   let pokemonsType :any=[]
   console.log(pokemonsType);
 for (let index = 0; index < legendary.length; index++) {
@@ -120,7 +122,7 @@ console.log(pokemonsType)
     <Container>
        { 
       pokemonsType.map((e: any, index: number) => (
-        <PokemonCard key={index} {...e} />
+        <PokemonCard key={index} {...e} add={addToCart} />
       ))}
     </Container>
   );

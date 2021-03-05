@@ -11,6 +11,10 @@ import Generation from "../containers/Generation";
 import Legendary from "../containers/Legendary";
 import styled from "styled-components";
 import Pokemon from "../containers/Pokemon";
+import Checkout from "../containers/Checkout";
+import Cart from "../containers/Cart";
+import Payment from "../containers/Payment";
+import Pay from "../containers/Pay"
 const Loading = styled.div`
   width: 100%;
   height: 100vh;
@@ -49,6 +53,10 @@ function App(): any {
                 <Route exact path="/pokemon/:id" component={Pokemon} />
                 <Route exact path="/legendary" component={Legendary} />
                 <Route exact path="/generation" component={Generation} />
+                <Route exact path="/cart" component={Cart} />
+                <Route exact path="/payment" component={Payment} />
+                <Route exact path="/checkout" component={Checkout} />
+                <Route exact path="/pay/:data"component={Pay}/>
               </Switch>
             </Layout>
           </BrowserRouter>

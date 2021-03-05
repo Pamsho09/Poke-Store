@@ -11,8 +11,7 @@ padding: 0;
 font-family:Roboto;
  }
  body{
-  background-color: #FBAB7E;
-background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+  background-color: #FFF;
 
  }
  @font-face {

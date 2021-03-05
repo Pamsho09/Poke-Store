@@ -6,11 +6,11 @@ import styled from "styled-components";
 import { link } from "fs";
 
 function Pokemon() {
-  const { pokemons }: any = useContext(AppContext);
+  const { pokemons ,addToCart}: any = useContext(AppContext);
   const { id }: any = useParams();
   let pokemon = pokemons.filter((e: any) => e.data.id == id);
   console.log(pokemon);
-
+  const [typePokemon, setTypePokemon] = useState(true);
   const pokeTypes: any = {
     normal: "	#A8A090",
     fighting: "#A05038",
@@ -34,13 +34,12 @@ function Pokemon() {
   const Container = styled.div`
     @media ${device.movile} {
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.3);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       gap: 2em;
-      border-radius:10px;
+      border-radius: 10px;
       .containerCard {
         border-radius: 10px;
         gap: 0.5em;
@@ -54,18 +53,62 @@ function Pokemon() {
         align-items: center;
         padding: 1em;
       }
-      .containerCard img {
+
+      .cardImg {
         width: 90%;
         border-radius: 10px;
-
+        height: 295px;
+        background-image: url(${typePokemon? pokemon[0].data.sprites.front_default: pokemon[0].data.sprites.front_shiny});
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
         background-color: #ffffff;
       }
-      .containerCard img:hover {
+      .cardImg:hover {
+        background-image: url(${typePokemon? pokemon[0].data.sprites.back_default: pokemon[0].data.sprites.back_shiny});
       }
+
       .containerCard h3,
       .containerCard h4 {
         text-transform: capitalize;
         font-size: xx-large;
+      }
+      .Quantity{
+
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #e6e6e6;
+        border-radius:10px;
+      }
+      .Quantity span{
+width:2em;
+height:2em;
+background:#fff;
+font-weight:bold;
+border-radius:10px;
+display:flex;
+justify-content:center;
+align-items: center;
+box-shadow:1px 1px rgba(0,0,0,0.5);
+
+      }
+      .Quantity span:hover{
+        
+        background:#757575;
+        }
+      .Quantity div{
+width:4em;
+height:2em;
+
+font-weight:bold;
+border-radius:10px;
+display:flex;
+justify-content:center;
+align-items: center;
+
+
       }
       .container-radio {
         width: 100%;
@@ -92,7 +135,7 @@ function Pokemon() {
         align-items: center;
       }
       .container-quantity input {
-        width: 10%;
+        width: 30%;
         text-align: center;
         border: none;
         outline: none;
@@ -107,56 +150,151 @@ function Pokemon() {
         align-items: center;
       }
       .buy button {
-    background-color: #ffffff;
-    padding: 0.5em;
-    font-weight:bold;
-    border-radius:10px;
-    border:none;
+        background-color: #ffffff;
+        padding: 0.5em;
+        font-weight: bold;
+        border-radius: 10px;
+        border: none;
+      }
+
+      .information {
+        display: grid;
+
+        grid-template-columns: 1fr ;
+        border-radius: 10px;
+        gap: 0.5em;
+        width: 80%;
+        padding: 0.5em;
+        background-color: #ffffff;
+        border-radius: 10px;
+        justify-content: center;
+        align-items: center;
+        text-align: justify;
+        box-shadow: 1px 1px  29px 1px rgba(0, 0, 0, 0.3);
+        margin-bottom:1em;
+      }
+      .dataPokemon{
+
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+
+        gap:1em;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+      }
+      .dataPokemon li {list-style:none;}
+
+      .movesContainer{
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items:center;
+      }
+      .containerMoves{
+        display: flex;
+        width:90%;
+        flex-wrap:wrap;
+        gap:0.1em;
+justify-content:center;
+
+      }
+      .moves{
+        padding:0.1em 0.5em  ;
+        border-radius:10px;
+      color:#fff;
+      font-weight:bold;
+        background-color: ${pokeTypes[pokemon[0].data.types[0].type.name]};}
+
+        .containerLocations ,  .containerLocations li{
+          width: 100%;
+          text-align: center;
+          justify-content: center;
+          align-items:center;
+          list-style:none;
         }
     }
+
   `;
-  const [active, setActive] = useState(true);
+const Stats=styled.div`
+ width: 100%;
+ display: grid;
+ row-gap:0.5em;
+ align-items: center;
+ 
+.stat-Container{
+justify-content:center;
+align-items: center;
+
+  width: 100%;
+ display: grid;
+ justify-content:center;
+ align-items: center;
+  grid-template-columns: 30% 70%;
+
+}
+
+.stat-Container b {
+height:2.3em;
+width:100%;
+background-color: ${pokeTypes[pokemon[0].data.types[0].type.name]};
+border-radius: 10px;
+text-align: center;
+display: flex;
+align-items: center;
+justify-content: center;
+  color:#fff;
+  text-transform:capitalize;
+}
+.stat-nav{
+  width: 100%;
+  height:1.5em;
+  display: flex;
+  align-items: center;
+}
+.stat-data{ 
+
+  display: flex;
+  justify-content:flex-end;
+  height:1em;
+  padding:0.25em;
+  border-radius:0 10px 10px 0;
+  background-color: #7de44d;
+}
+
+
+`
+  
   const [locations, setLocatios]: any = useState([]);
-  const [typePokemon, setTypePokemon] = useState([
-    pokemon[0].data.sprites.front_default,
-    pokemon[0].data.sprites.back_default,
-  ]);
+const [quantityPokemons,setQuantityPokemons]: any = useState(0)
   useEffect(() => {
     fetch(pokemon[0].data.location_area_encounters)
       .then((res) => res.json())
       .then((data) => setLocatios(data));
   }, []);
   console.log(locations);
-  function handleChangePokemon(state: boolean) {
-    state
-      ? setTypePokemon([
-          pokemon[0].data.sprites.front_default,
-          pokemon[0].data.sprites.back_default,
-        ])
-      : setTypePokemon([
-          pokemon[0].data.sprites.front_shiny,
-          pokemon[0].data.sprites.back_shiny,
-        ]);
-  }
+  function handleClickAdd(e:any){
 
+    e.preventDefault();
+    
+    let pokemonAdd ={
+      id:pokemon[0].data.id,
+    name:pokemon[0].data.name,
+    sprite:typePokemon? pokemon[0].data.sprites.front_default: pokemon[0].data.sprites.front_shiny,
+    quantity:quantityPokemons,
+    price:pokemon[0].data.base_experience,
+    
+    }
+
+    addToCart(pokemonAdd)
+      }
   return (
     <Container>
       <div className="containerCard">
-        <img
-          src={typePokemon[active ? 0 : 1]}
-          alt=""
-          id="imgPoke"
-          onMouseOut={() => {
-            setActive(true);
-
-            console.log("entro");
-          }}
-          onMouseOver={() => {
-            setActive(false);
-
-            console.log("salio");
-          }}
-        />
+        <div className="cardImg" />
 
         <h3>{pokemon[0].data.name}</h3>
 
@@ -164,30 +302,44 @@ function Pokemon() {
         <div className="container-radio">
           <button
             onClick={() => {
-              handleChangePokemon(true);
+              setTypePokemon(true);
             }}
           >
             Normal
           </button>
           <button
             onClick={() => {
-              handleChangePokemon(false);
+              setTypePokemon(false);
             }}
           >
             Shiny
           </button>
         </div>
-        <div className="container-quantity">
-          <label htmlFor="quantity">Quantity</label>{" "}
-          <input id="quantity" type="number" value="1" />
-        </div>
-        <div className="buy">
-          <button>Add cart</button>
-        </div>
+        <form onSubmit={handleClickAdd}>
+          <div className="container-quantity">
+            <label htmlFor="quantity">Quantity</label>{" "}
+           <div className="Quantity">
+          <span onClick={() => {
+          
+            setQuantityPokemons(quantityPokemons>0?quantityPokemons-1:0)
+            
+          }}>-</span> <div>{quantityPokemons}</div> <span onClick={() => {
+            
+            setQuantityPokemons(quantityPokemons+1)
+           
+          }}>+</span>
+           </div>
+          </div>
+          <div className="buy">
+            <button >Add cart</button>
+          </div>
+        </form>
       </div>
       <div className="information">
         <h3>Information</h3>
-        <b>id :</b>
+     <div className="dataPokemon">
+
+     <b>id :</b>
         {pokemon[0].data.id}
         <b>Name :</b>
         {pokemon[0].data.name}
@@ -202,26 +354,45 @@ function Pokemon() {
             <li>{e.ability.name} </li>
           ))}
         </ul>
-        <b>Stats</b>
-        <ul>
+     </div>
+
+     <Stats className="statsPokemon">
+     <h4>Stats</h4>
+        
           {pokemon[0].data.stats.map((e: any) => (
-            <li>
-              <b>{e.stat.name}</b>:{e.base_stat}
-            </li>
+            <div className='stat-Container'>
+              <b>{e.stat.name}</b><div className='stat-nav'> <span className='stat-data' style={
+                {
+                  width:`${(e.base_stat/2).toString()}%`
+                }
+                } >{e.base_stat}</span > </div>
+            </div>
           ))}
-        </ul>
-        <b>Moves</b>
-        <ul>
+      
+
+
+
+     </Stats>
+      
+       
+       <div className='movesContainer'><h4>Moves</h4>
+        <div className='containerMoves'>
           {pokemon[0].data.moves.map((e: any) => (
-            <li>{e.move.name}</li>
+            <span className='moves'>{e.move.name}</span>
           ))}
-        </ul>
+        </div></div>
+        
+        <div className='containerLocations'>
+
         <b>Possible locations :</b>
         <ul>
-          {locations.map((e: any) => (
+          {locations.length>1?locations.map((e: any) => (
             <li>{e.location_area.name}</li>
-          ))}
+          )):
+          <h2>pokemon is not available</h2>
+          }
         </ul>
+        </div>
       </div>
     </Container>
   );

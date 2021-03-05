@@ -9,7 +9,7 @@ function useInitialState(): any {
 
   useEffect(() => {
     axios
-      .get("https://pokeapi.co/api/v2/pokemon?limit=897")
+      .get("https://pokeapi.co/api/v2/pokemon?limit=500")
       .then((res): any => res.data.results)
       .then((results) => {
         return Promise.all(results.map((e: { url: string; }) => axios.get(e.url)))
@@ -20,12 +20,12 @@ function useInitialState(): any {
       })
   }, []);
 
-  // const addToCart:any = (payload: never) => {
-  //   setState({
-  //     ...state,
-  //     cart: [...state.cart, payload],
-  //   });
-  // };
+   const addToCart = (payload: never) => {
+    setState({
+      ...state,
+      cart: [...state.cart, payload],
+    });
+  };
 
   // const removeFromCart:any = (payload: never, indexToRemove: number) => {
   //   setState({
@@ -45,7 +45,7 @@ function useInitialState(): any {
   //   setState({ ...state, order: [...state.order, payload] });
   // };
 
-  return { state, pokemons };
+  return { state, pokemons, addToCart };
 }
 
 export default useInitialState;

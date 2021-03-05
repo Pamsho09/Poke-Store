@@ -16,7 +16,9 @@ const Header = styled.header`
     justify-content: space-between;
     align-items: center;
     border-radius: 0 0 23px 23px;
-
+a{
+  color: #000;
+}
     nav {
       width: 100%;
       display: flex;
@@ -55,9 +57,11 @@ const Menu = styled.div`
     bottom: 10px;
     margin-right: 40px;
     right: 10px;
+    
     .poke-menu {
       width: 4em;
       height: 4em;
+      
     }
     :hover .menu {
       display: flex;
@@ -92,6 +96,7 @@ const Menu = styled.div`
       display: none;
     }
     .menu-opcions {
+      box-shadow: 1px 1px  29px 1px rgba(0, 0, 0, 0.3);
       background-color: #d8d8d8;
     }
     .menu-opcions,
@@ -190,7 +195,7 @@ margin-right:1em;
 `;
 
 function Heade(): any {
-  const { pokemons }: any = useContext(AppContext);
+  const { pokemons,state }: any = useContext(AppContext);
   const [search, setSearch] = useState("");
 
   const [ability, setAbility]: any = useState([]);
@@ -220,7 +225,12 @@ function Heade(): any {
     [pokemons, search]
   );
 
-  console.log(filterPokemon);
+  let quantity :number =0
+state.cart.map((e: any)=>{
+  quantity+=e.quantity
+})
+
+  
   return (
     <Header>
       <nav>
@@ -397,8 +407,9 @@ function Heade(): any {
 
             <li className="menu-opcions">
               <h3>
-                {" "}
-                <i className="fas fa-shopping-cart"></i>
+               <Link to="/cart"><i className="fas fa-shopping-cart"> <span>{quantity}</span></i></Link>
+               
+                
               </h3>
             </li>
           </ul>

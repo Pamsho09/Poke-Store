@@ -14,7 +14,7 @@ const Generation = (props: any): any => {
     flex-wrap: wrap;
   `;
   const limit: number[] = props.history.location.state.limitGenetatio;
-  const { pokemons }: any = useContext(AppContext);
+  const { pokemons ,addToCart}: any = useContext(AppContext);
   let allData = pokemons.filter((e: any) => {
     if (e.data.id >= limit[0] && e.data.id <= limit[1] ) {
       return true;
@@ -25,7 +25,7 @@ const Generation = (props: any): any => {
   return (
     <Container>
       { allData.map((e: any,index:number) => (
-        <PokemonCard  key ={index } {...e} />
+        <PokemonCard  key ={index } {...e} add={addToCart} />
       ))}
     </Container>
   );

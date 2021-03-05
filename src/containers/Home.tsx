@@ -13,13 +13,12 @@ gap:3em;
 flex-wrap:
 wrap;
   `;
-  const data: any = useContext(AppContext);
-  let allData = data.pokemons;
-  console.log(allData)
+  const {pokemons,addToCart}:any = useContext(AppContext);
+ 
   return (
     <Container>
-      {allData.map((e: any,index:number) => (
-        <PokemonCard  key ={index } {...e} />
+      {pokemons.map((e: any,index:number) => (
+        <PokemonCard  key ={index } {...e} add={addToCart} />
       ))}
     </Container>
   );

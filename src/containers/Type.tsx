@@ -14,7 +14,7 @@ function Type() {
   `;
   const { id }: any = useParams();
   console.log(id);
-  const { pokemons }: any = useContext(AppContext);
+  const { pokemons ,addToCart}: any = useContext(AppContext);
   console.log(pokemons);
 
   let pokemonsType = pokemons.filter(
@@ -25,7 +25,7 @@ function Type() {
   return (
     <Container>
       {pokemonsType.map((e: any, index: number) => (
-        <PokemonCard key={index} {...e} />
+        <PokemonCard key={index} {...e} add ={addToCart} />
       ))}
     </Container>
   );
