@@ -16,8 +16,9 @@ import Cart from "../containers/Cart";
 import Payment from "../containers/Payment";
 import Pay from "../containers/Pay"
 const Loading = styled.div`
-  width: 100%;
-  height: 100vh;
+  width: 1080px;
+margin:auto;
+  height: 1920px;
   display: flex;
   justify-content: center;
   align-items: center;
